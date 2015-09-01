@@ -76,10 +76,6 @@ if ($host.Name -eq "ConsoleHost") {
   Set-Alias -name jeb -value "$TOOLS_BASE_PATH/android/jeb-1.5.201408040/jeb_wincon.bat"
   Set-Alias -name ddms -value "$TOOLS_BASE_PATH/android/sdk/tools/monitor.bat"
 
-  Import-Module Posh-SSH
-  Import-Module PoshNet
-  Import-Module Find-String
-
   # Import posh-git from current user module
   $profileDir = Split-Path $PROFILE
   $poshgitModule = Join-Path $profileDir "\Modules\posh-git\0.5.0.2015\posh-git.psm1"
