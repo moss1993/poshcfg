@@ -76,6 +76,12 @@ if ($host.Name -eq "ConsoleHost") {
   Set-Alias -name jeb -value "$TOOLS_BASE_PATH/android/jeb-1.5.201408040/jeb_wincon.bat"
   Set-Alias -name ddms -value "$TOOLS_BASE_PATH/android/sdk/tools/monitor.bat"
 
+  Set-Alias -name apktool -value "$TOOLS_BASE_PATH/android/apktool/apktool.bat"
+  Set-Alias -name smali -value "$TOOLS_BASE_PATH/android/apktool/smali.bat"
+  Set-Alias -name baksmali -value "$TOOLS_BASE_PATH/android/apktool/baksmali.bat"
+
+  Set-Alias -name burp -value "$TOOLS_BASE_PATH/misc/burpsuite/burpsuite.bat"
+
   # Import posh-git from current user module
   $profileDir = Split-Path $PROFILE
   $poshgitModule = Join-Path $profileDir "\Modules\posh-git\0.5.0.2015\posh-git.psm1"
@@ -103,7 +109,7 @@ function drozer() {
   .\drozer.bat $args
 }
 
-#
+# forward android_server port
 function forward_ida() {
   adb forward tcp:23946 tcp:23946
 }
