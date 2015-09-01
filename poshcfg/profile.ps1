@@ -65,6 +65,11 @@ if ($host.Name -eq "ConsoleHost") {
   InitializePath
   PrintIpAddreses
 
+  # Update hedit.
+  if (Test-Path HKCU:"\Software\SweetScape\010 Editor\CLASSES") {
+    Remove-Item -Path HKCU:"\Software\SweetScape\010 Editor\CLASSES" -Recurse
+  }
+
   # Initialize aliases
   Set-Alias -name subl -value "C:/Program Files/Sublime Text 3/sublime_text.exe"
   Set-Alias -name hedit -value "C:/Program Files/010 Editor/010Editor.exe"
