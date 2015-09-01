@@ -58,10 +58,8 @@ if ($host.Name -eq "ConsoleHost") {
   Write-Host "   |____|   |___|  /\___  >\______  /\__|  | \/\_/   " -foregroundcolor DarkRed
   Write-Host "                 \/     \/        \/\______|         " -foregroundcolor DarkRed
 
-  Import-Module xPSDesiredStateConfiguration
   Import-Module Posh-SSH
   Import-Module PoshNet
-  Import-Module x7Zip
   Import-Module Find-String
 
   InitializePath
