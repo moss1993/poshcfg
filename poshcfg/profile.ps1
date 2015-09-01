@@ -6,6 +6,23 @@ Import-Module PSColors
 
 $TOOLS_BASE_PATH = "D:/tools"
 
+function ShowBanner() {
+  # Oh no...
+  Write-Host " ___________.__           _________      __          " -foregroundcolor blue
+  Write-Host " \__    ___/|  |__   ____ \_   ___ \    |__|_  _  __ " -foregroundcolor blue
+  Write-Host "   |    |   |  |  \_/ __ \/    \  \/    |  \ \/ \/ / " -foregroundcolor yellow
+  Write-Host "   |    |   |   Y  \  ___/\     \____   |  |\     /  " -foregroundcolor yellow
+  Write-Host "   |____|   |___|  /\___  >\______  /\__|  | \/\_/   " -foregroundcolor DarkRed
+  Write-Host "                 \/     \/        \/\______|         " -foregroundcolor DarkRed
+}
+
+function PrintIpAddreses() {
+  $ipaddress = [System.Net.DNS]::GetHostByName($null)
+  Foreach ($ip in $ipaddress.AddressList) {
+    Write-Host (" * " + $ip.IPAddressToString) -foregroundcolor DarkGray
+  }
+}
+
 function InitializePath {
 
   $newPaths = @(
@@ -35,41 +52,18 @@ function InitializePath {
   }
 }
 
-function PrintIpAddreses() {
-  $ipaddress = [System.Net.DNS]::GetHostByName($null)
-  Foreach ($ip in $ipaddress.AddressList) {
-    Write-Host (" * " + $ip.IPAddressToString) -foregroundcolor DarkGray
-  }
-}
-
 # Profile entry.
 
 Write-Host "Initializing..." -foregroundcolor DarkGray
 Write-Host ("Now: " + [System.DateTime]::Now.toString()) -foregroundcolor DarkGray
 Write-Host ("Host: " + $host.Name)
 
+ShowBanner
+
 if ($host.Name -eq "ConsoleHost") {
-
-  # Oh no...
-  Write-Host " ___________.__           _________      __          " -foregroundcolor blue
-  Write-Host " \__    ___/|  |__   ____ \_   ___ \    |__|_  _  __ " -foregroundcolor blue
-  Write-Host "   |    |   |  |  \_/ __ \/    \  \/    |  \ \/ \/ / " -foregroundcolor yellow
-  Write-Host "   |    |   |   Y  \  ___/\     \____   |  |\     /  " -foregroundcolor yellow
-  Write-Host "   |____|   |___|  /\___  >\______  /\__|  | \/\_/   " -foregroundcolor DarkRed
-  Write-Host "                 \/     \/        \/\______|         " -foregroundcolor DarkRed
-
-  Import-Module Posh-SSH
-  Import-Module PoshNet
-  Import-Module Find-String
-  Import-Module posh-git
 
   InitializePath
   PrintIpAddreses
-
-  # Update hedit.
-  if (Test-Path HKCU:"\Software\SweetScape\010 Editor\CLASSES") {
-    Remove-Item -Path HKCU:"\Software\SweetScape\010 Editor\CLASSES" -Recurse
-  }
 
   # Initialize aliases
   Set-Alias -name subl -value "C:/Program Files/Sublime Text 3/sublime_text.exe"
@@ -81,6 +75,21 @@ if ($host.Name -eq "ConsoleHost") {
 
   Set-Alias -name jeb -value "$TOOLS_BASE_PATH/android/jeb-1.5.201408040/jeb_wincon.bat"
   Set-Alias -name ddms -value "$TOOLS_BASE_PATH/android/sdk/tools/monitor.bat"
+
+  Import-Module Posh-SSH
+  Import-Module PoshNet
+  Import-Module Find-String
+
+  # Import posh-git from current user module
+  $profileDir = Split-Path $PROFILE
+  $poshgitModule = Join-Path $profileDir "\Modules\posh-git\0.5.0.2015\posh-git.psm1"
+  Import-Module $poshgitModule
+  Start-SshAgent -Quiet
+
+  # Update hedit.
+  if (Test-Path HKCU:"\Software\SweetScape\010 Editor\CLASSES") {
+    Remove-Item -Path HKCU:"\Software\SweetScape\010 Editor\CLASSES" -Recurse
+  }
 }
 
 # some Git commands.
@@ -98,7 +107,7 @@ function drozer() {
   .\drozer.bat $args
 }
 
-# 
+#
 function forward_ida() {
   adb forward tcp:23946 tcp:23946
 }
