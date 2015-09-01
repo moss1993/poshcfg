@@ -61,6 +61,7 @@ if ($host.Name -eq "ConsoleHost") {
   Import-Module Posh-SSH
   Import-Module PoshNet
   Import-Module Find-String
+  Import-Module posh-git
 
   InitializePath
   PrintIpAddreses
