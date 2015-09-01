@@ -8,6 +8,11 @@
     <RootNamespace>MyApplication</RootNamespace>
     <AssemblyName>MyApplication</AssemblyName>
     <Name>poshcfg</Name>
+    <Author>TheCjw</Author>
+    <CompanyName>0GiNr</CompanyName>
+    <Copyright />
+    <Description />
+    <Guid>a61fa41e-a0df-4f01-acce-2cec88447ae2</Guid>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
