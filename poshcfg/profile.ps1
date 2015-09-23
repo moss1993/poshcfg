@@ -27,8 +27,8 @@ function InitializePath {
 
   $newPaths = @(
     # git and msys
-    "C:/Program Files/Git/bin/",
-    "C:/Program Files/Git/usr/bin",
+    "$Env:ProgramFiles/Git/bin/",
+    "$Env:ProgramFiles/Git/usr/bin",
 
     # adb.exe
     "$TOOLS_BASE_PATH/android/sdk/platform-tools/",
@@ -37,19 +37,17 @@ function InitializePath {
     # ndk-build
     "$TOOLS_BASE_PATH/android/ndk/",
     # arm*readelf.exe etc.
-    "$TOOLS_BASE_PATH/android/ndk/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64/bin/"
+    "$TOOLS_BASE_PATH/android/ndk/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64/bin/",
+
+    "$Env:ProgramFiles/Java/jdk1.8.0_60/bin/"
   )
 
-  $currentPaths = $env:Path.Split(";")
-
-  $env:Path = ""
-  Foreach ($path in $currentPaths) {
-    $env:Path = $env:Path + ";" + $path
+  $currentPaths = $Env:Path.Split(";")
+  $Env:Path = $currentPaths -join ";"
+  if (!$Env:Path.EndsWith(";")) {
+    $Env:Path += ";"
   }
-
-  Foreach ($path in $newPaths) {
-    $env:Path = $env:Path + ";" + $path
-  }
+  $Env:Path = $Env:Path + ($newPaths -join ";")
 }
 
 # Profile entry.
@@ -66,8 +64,8 @@ if ($host.Name -eq "ConsoleHost") {
   PrintIpAddreses
 
   # Initialize aliases
-  Set-Alias -name subl -value "C:/Program Files/Sublime Text 3/sublime_text.exe"
-  Set-Alias -name hedit -value "C:/Program Files/010 Editor/010Editor.exe"
+  Set-Alias -name subl -value "$Env:ProgramFiles/Sublime Text 3/sublime_text.exe"
+  Set-Alias -name hedit -value "$Env:ProgramFiles/010 Editor/010Editor.exe"
 
   Set-Alias -name bcom -value "$TOOLS_BASE_PATH/Misc/Beyond Compare 4/BCompare.exe"
   Set-Alias -name ida32 -value "$TOOLS_BASE_PATH/Debuggers/IDA.Pro.v6.6/idaq.exe"
@@ -81,6 +79,8 @@ if ($host.Name -eq "ConsoleHost") {
   Set-Alias -name baksmali -value "$TOOLS_BASE_PATH/android/apktool/baksmali.bat"
 
   Set-Alias -name burp -value "$TOOLS_BASE_PATH/misc/burpsuite/burpsuite.bat"
+
+  Set-Alias -name sourcetree -value "${Env:ProgramFiles(x86)}/Atlassian/SourceTree/SourceTree.exe"
 
   # Import posh-git from current user module
   $profileDir = Split-Path $PROFILE
