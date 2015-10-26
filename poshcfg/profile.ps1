@@ -39,7 +39,9 @@ function InitializePath {
     # arm*readelf.exe etc.
     "$TOOLS_BASE_PATH/android/ndk/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64/bin/",
 
-    "$Env:ProgramFiles/Java/jdk1.8.0_60/bin/"
+    "$Env:JAVA_HOME/bin/",
+
+    "$TOOLS_BASE_PATH/Python/pypy-2.6.1-win32/"
   )
 
   $currentPaths = $Env:Path.Split(";")
@@ -68,8 +70,8 @@ if ($host.Name -eq "ConsoleHost") {
   Set-Alias -name hedit -value "$Env:ProgramFiles/010 Editor/010Editor.exe"
 
   Set-Alias -name bcom -value "$TOOLS_BASE_PATH/Misc/Beyond Compare 4/BCompare.exe"
-  Set-Alias -name ida32 -value "$TOOLS_BASE_PATH/Debuggers/IDA.Pro.v6.6/idaq.exe"
-  Set-Alias -name ida64 -value "$TOOLS_BASE_PATH/Debuggers/IDA.Pro.v6.6/idaq64.exe"
+  Set-Alias -name ida32 -value "$TOOLS_BASE_PATH/IDA/IDA.Pro.v6.6/idaq.exe"
+  Set-Alias -name ida64 -value "$TOOLS_BASE_PATH/IDA/IDA.Pro.v6.6/idaq64.exe"
 
   Set-Alias -name jeb -value "$TOOLS_BASE_PATH/android/jeb-1.5.201408040/jeb_wincon.bat"
   Set-Alias -name ddms -value "$TOOLS_BASE_PATH/android/sdk/tools/monitor.bat"
