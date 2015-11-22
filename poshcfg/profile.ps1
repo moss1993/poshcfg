@@ -4,7 +4,7 @@
 
 Import-Module PSColors
 
-$TOOLS_BASE_PATH = "D:/tools"
+$TOOLS_BASE_PATH = "c:/Users/N/AppData/Local/Programs"
 
 function ShowBanner() {
   # Oh no...
@@ -28,12 +28,12 @@ function InitializePath {
   $newPaths = @(
     # git and msys
     "$Env:ProgramFiles/Git/bin/",
-    "$Env:ProgramFiles/Git/usr/bin",
+    "$Env:ProgramFiles/Git/usr/bin/",
 
     # adb.exe
     "$TOOLS_BASE_PATH/android/sdk/platform-tools/",
     # aapt.exe etc.
-    "$TOOLS_BASE_PATH/android/sdk/build-tools/23.0.0/",
+    "$TOOLS_BASE_PATH/android/sdk/build-tools/23.0.2/",
     # ndk-build
     "$TOOLS_BASE_PATH/android/ndk/",
     # arm*readelf.exe etc.
