@@ -41,7 +41,7 @@ function InitializePath {
 
     "$Env:JAVA_HOME/bin/",
 
-    "$TOOLS_BASE_PATH/Python/pypy-2.6.1-win32/"
+    "$TOOLS_BASE_PATH/Python/pypy-4.0.1-win32/"
   )
 
   $currentPaths = $Env:Path.Split(";")
