@@ -27,8 +27,8 @@ function InitializePath {
 
   $newPaths = @(
     # git and msys
-    "$Env:ProgramFiles/Git/bin/",
-    "$Env:ProgramFiles/Git/usr/bin/",
+    "$TOOLS_BASE_PATH/Git/bin/",
+    "$TOOLS_BASE_PATH/Git/usr/bin/",
 
     # adb.exe
     "$TOOLS_BASE_PATH/android/sdk/platform-tools/",
