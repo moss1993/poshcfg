@@ -73,7 +73,7 @@ if ($host.Name -eq "ConsoleHost") {
   Set-Alias -name ida32 -value "$TOOLS_BASE_PATH/IDA/IDA.Pro.v6.8/idaq.exe"
   Set-Alias -name ida64 -value "$TOOLS_BASE_PATH/IDA/IDA.Pro.v6.8/idaq64.exe"
 
-  Set-Alias -name jeb -value "$TOOLS_BASE_PATH/android/jeb-1.5.201408040/jeb_wincon.bat"
+  Set-Alias -name jeb -value "$TOOLS_BASE_PATH/android/jeb-1.5.201508100/jeb_wincon.bat"
   Set-Alias -name ddms -value "$TOOLS_BASE_PATH/android/sdk/tools/monitor.bat"
 
   Set-Alias -name apktool -value "$TOOLS_BASE_PATH/android/apktool/apktool.bat"
