@@ -3,8 +3,9 @@
 #
 
 Import-Module PSColors
+Import-Module Pscx
 
-$TOOLS_BASE_PATH = "c:/Users/N/AppData/Local/Programs"
+$TOOLS_BASE_PATH = "$env:LOCALAPPDATA/Programs"
 
 function ShowBanner() {
   # Oh no...
@@ -90,7 +91,6 @@ if ($host.Name -eq "ConsoleHost") {
   Import-Module $poshgitModule
   Start-SshAgent -Quiet
 
-  # Update hedit.
   if (Test-Path HKCU:"\Software\SweetScape\010 Editor\CLASSES") {
     Remove-Item -Path HKCU:"\Software\SweetScape\010 Editor\CLASSES" -Recurse
   }
@@ -114,4 +114,11 @@ function drozer() {
 # forward android_server port
 function forward_ida() {
   adb forward tcp:23946 tcp:23946
+}
+
+# Visual Studio
+function Import-VS15Vars {
+  $vcargs = ?: {$Pscx:Is64BitProcess} {"amd64"} {"x86"}
+  Push-EnvironmentBlock -Description "Before importing VS 2015 $vcargs vars"
+  Invoke-BatchFile "${env:VS140COMNTOOLS}..\..\VC\vcvarsall.bat" $vcargs
 }
