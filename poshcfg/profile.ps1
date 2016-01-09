@@ -103,6 +103,7 @@ if ($host.Name -eq "ConsoleHost") {
   if (Test-Path HKCU:"\Software\SweetScape\010 Editor\CLASSES") {
     Remove-Item -Path HKCU:"\Software\SweetScape\010 Editor\CLASSES" -Recurse
   }
+  # TODO: Add BCom support.
 }
 
 # some Git commands.
@@ -113,7 +114,7 @@ function gll() {
   git log --oneline --all --graph --decorate $args
 }
 
-# run drozer cli
+# TODO: Use python source version.
 function drozer() {
   adb forward tcp:31415 tcp:31415
   cd "$TOOLS_BASE_PATH/android/drozer"
@@ -125,9 +126,18 @@ function forward_ida() {
   adb forward tcp:23946 tcp:23946
 }
 
-# Visual Studio
-function Import-VS15Vars {
-  $vcargs = ?: {$Pscx:Is64BitProcess} {"amd64"} {"x86"}
-  Push-EnvironmentBlock -Description "Before importing VS 2015 $vcargs vars"
-  Invoke-BatchFile "${env:VS140COMNTOOLS}..\..\VC\vcvarsall.bat" $vcargs
+# Base64 encode/decode helper.
+function b64encode() {
+  if ($args.count) {
+    $bytes = [System.Text.Encoding]::Unicode.GetBytes($args[0])
+    $encodedText = [Convert]::ToBase64String($bytes)
+    Write-Host $encodedText
+  }
+}
+
+function b64decode() {
+  if ($args.count) {
+    $decodedText = [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($args[0]))
+    Write-Host $decodedText
+  }
 }
