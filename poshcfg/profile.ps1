@@ -53,6 +53,19 @@ function InitializePath {
   $Env:Path = $Env:Path + ($newPaths -join ";")
 }
 
+function InitializeThirdPartyModule() {
+  # Import posh-git from current user module
+  $profileDir = Split-Path $PROFILE
+  $poshgitModule = Join-Path $profileDir "\Modules\thirdparty\posh-git\posh-git.psm1"
+  Import-Module $poshgitModule
+  Start-SshAgent -Quiet
+
+  # Initialize PowerLS, https://github.com/jrjurman/powerls
+  $powerLSModule = Join-Path $profileDir "\Modules\thirdparty\PowerLS\powerls.psm1"
+  Import-Module $powerLSModule
+  Set-Alias -Name ls -Value PowerLS -Option AllScope
+}
+
 # Profile entry.
 
 Write-Host "Initializing..." -foregroundcolor DarkGray
@@ -85,11 +98,7 @@ if ($host.Name -eq "ConsoleHost") {
 
   Set-Alias -name sourcetree -value "${Env:ProgramFiles(x86)}/Atlassian/SourceTree/SourceTree.exe"
 
-  # Import posh-git from current user module
-  $profileDir = Split-Path $PROFILE
-  $poshgitModule = Join-Path $profileDir "\Modules\posh-git\0.5.0.2015\posh-git.psm1"
-  Import-Module $poshgitModule
-  Start-SshAgent -Quiet
+  InitializeThirdPartyModule
 
   if (Test-Path HKCU:"\Software\SweetScape\010 Editor\CLASSES") {
     Remove-Item -Path HKCU:"\Software\SweetScape\010 Editor\CLASSES" -Recurse
