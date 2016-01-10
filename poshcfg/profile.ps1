@@ -103,7 +103,9 @@ if ($host.Name -eq "ConsoleHost") {
   if (Test-Path HKCU:"\Software\SweetScape\010 Editor\CLASSES") {
     Remove-Item -Path HKCU:"\Software\SweetScape\010 Editor\CLASSES" -Recurse
   }
-  # TODO: Add BCom support.
+  if (Test-Path HKCU:"\SOFTWARE\Scooter Software\Beyond Compare 4") {
+    Remove-Item -Path HKCU:"\SOFTWARE\Scooter Software\Beyond Compare 4" -Recurse
+  }
 }
 
 # some Git commands.
@@ -114,11 +116,10 @@ function gll() {
   git log --oneline --all --graph --decorate $args
 }
 
-# TODO: Use python source version.
 function drozer() {
   adb forward tcp:31415 tcp:31415
-  cd "$TOOLS_BASE_PATH/android/drozer"
-  .\drozer.bat $args
+  cd "$env:HOME/Documents/code/python/drozer"
+  .\drozer.py $args
 }
 
 # forward android_server port
