@@ -7,7 +7,7 @@ Import-Module Pscx
 
 $TOOLS_BASE_PATH = "$env:LOCALAPPDATA/Programs"
 
-function ShowBanner() {
+function ShowBanner {
   # Oh no...
   Write-Host " ___________.__           _________      __          " -foregroundcolor blue
   Write-Host " \__    ___/|  |__   ____ \_   ___ \    |__|_  _  __ " -foregroundcolor blue
@@ -15,13 +15,6 @@ function ShowBanner() {
   Write-Host "   |    |   |   Y  \  ___/\     \____   |  |\     /  " -foregroundcolor yellow
   Write-Host "   |____|   |___|  /\___  >\______  /\__|  | \/\_/   " -foregroundcolor DarkRed
   Write-Host "                 \/     \/        \/\______|         " -foregroundcolor DarkRed
-}
-
-function PrintIpAddreses() {
-  $ipaddress = [System.Net.DNS]::GetHostByName($null)
-  Foreach ($ip in $ipaddress.AddressList) {
-    Write-Host (" * " + $ip.IPAddressToString) -foregroundcolor DarkGray
-  }
 }
 
 function InitializePath {
@@ -53,7 +46,7 @@ function InitializePath {
   $Env:Path = $Env:Path + ($newPaths -join ";")
 }
 
-function InitializeThirdPartyModule() {
+function InitializeThirdPartyModule {
   # Import posh-git from current user module
   $profileDir = Split-Path $PROFILE
   $poshgitModule = Join-Path $profileDir "\Modules\thirdparty\posh-git\posh-git.psm1"
@@ -77,7 +70,10 @@ ShowBanner
 if ($host.Name -eq "ConsoleHost") {
 
   InitializePath
-  PrintIpAddreses
+
+  [System.Net.DNS]::GetHostByName($null).AddressList | ForEach-Object {
+    Write-Host (" * " + $_.IPAddressToString) -foregroundcolor DarkGray
+  }
 
   # Initialize aliases
   Set-Alias -name subl -value "$Env:ProgramFiles/Sublime Text 3/sublime_text.exe"
@@ -109,36 +105,34 @@ if ($host.Name -eq "ConsoleHost") {
 }
 
 # some Git commands.
-function gs() {
+function gs {
   git status
 }
-function gll() {
+function gll {
   git log --oneline --all --graph --decorate $args
 }
 
-function drozer() {
+function drozer {
   adb forward tcp:31415 tcp:31415
   cd "$env:HOME/Documents/code/python/drozer"
   .\drozer.py $args
 }
 
 # forward android_server port
-function forward_ida() {
+function forward_ida {
   adb forward tcp:23946 tcp:23946
 }
 
 # Base64 encode/decode helper.
-function b64encode() {
-  if ($args.count) {
-    $bytes = [System.Text.Encoding]::Unicode.GetBytes($args[0])
-    $encodedText = [Convert]::ToBase64String($bytes)
-    Write-Host $encodedText
-  }
+function b64encode {
+  param ([string]$content)
+  $bytes = [System.Text.Encoding]::Unicode.GetBytes($content)
+  $encodedText = [Convert]::ToBase64String($bytes)
+  Write-Host $encodedText
 }
 
-function b64decode() {
-  if ($args.count) {
-    $decodedText = [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($args[0]))
-    Write-Host $decodedText
-  }
+function b64decode {
+   param ([string]$content)
+  $decodedText = [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($content))
+  Write-Host $decodedText
 }
