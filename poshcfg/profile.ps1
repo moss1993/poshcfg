@@ -125,3 +125,8 @@ function b64decode {
   $decodedText = [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($content))
   Write-Host $decodedText
 }
+
+# Print signature info of PE file.
+function dump_signature {
+  Get-AuthenticodeSignature $args[0] | Format-List
+}
