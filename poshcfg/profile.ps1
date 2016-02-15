@@ -3,19 +3,8 @@
 #
 
 Import-Module PSColors
-Import-Module Pscx
 
 $TOOLS_BASE_PATH = "$env:LOCALAPPDATA/Programs"
-
-function ShowBanner {
-  # Oh no...
-  Write-Host " ___________.__           _________      __          " -foregroundcolor blue
-  Write-Host " \__    ___/|  |__   ____ \_   ___ \    |__|_  _  __ " -foregroundcolor blue
-  Write-Host "   |    |   |  |  \_/ __ \/    \  \/    |  \ \/ \/ / " -foregroundcolor yellow
-  Write-Host "   |    |   |   Y  \  ___/\     \____   |  |\     /  " -foregroundcolor yellow
-  Write-Host "   |____|   |___|  /\___  >\______  /\__|  | \/\_/   " -foregroundcolor DarkRed
-  Write-Host "                 \/     \/        \/\______|         " -foregroundcolor DarkRed
-}
 
 function InitializePath {
 
@@ -62,18 +51,18 @@ function InitializeThirdPartyModule {
 # Profile entry.
 
 Write-Host "Initializing..." -foregroundcolor DarkGray
-Write-Host ("Now: " + [System.DateTime]::Now.toString()) -foregroundcolor DarkGray
-Write-Host ("Host: " + $host.Name)
+Write-Host "Now:" ([System.DateTime]::Now.toString()) -foregroundcolor DarkGray
+Write-Host "Host:" $host.Name
+Write-Host
+Write-Host "Current ip:"
+[System.Net.DNS]::GetHostByName($null).AddressList | ForEach-Object {
+  Write-Host (" * " + $_.IPAddressToString) -foregroundcolor DarkGray
+}
 
-ShowBanner
+InitializePath
+
 
 if ($host.Name -eq "ConsoleHost") {
-
-  InitializePath
-
-  [System.Net.DNS]::GetHostByName($null).AddressList | ForEach-Object {
-    Write-Host (" * " + $_.IPAddressToString) -foregroundcolor DarkGray
-  }
 
   # Initialize aliases
   Set-Alias -name subl -value "$Env:ProgramFiles/Sublime Text 3/sublime_text.exe"
@@ -132,7 +121,7 @@ function b64encode {
 }
 
 function b64decode {
-   param ([string]$content)
+  param ([string]$content)
   $decodedText = [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($content))
   Write-Host $decodedText
 }
