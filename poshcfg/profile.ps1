@@ -24,7 +24,7 @@ function InitializePath {
 
     "$Env:JAVA_HOME/bin/",
 
-    "$TOOLS_BASE_PATH/Python/pypy-4.0.1-win32/"
+    "$TOOLS_BASE_PATH/Python/pypy-5.0.0-win32/"
   )
 
   $currentPaths = $Env:Path.Split(";")
@@ -83,6 +83,8 @@ if ($host.Name -eq "ConsoleHost") {
 
   Set-Alias -name sourcetree -value "${Env:ProgramFiles(x86)}/Atlassian/SourceTree/SourceTree.exe"
 
+  Set-Alias -name pypy3 -value "$TOOLS_BASE_PATH/Python/pypy3-2.4.0-win32/pypy.exe"
+
   InitializeThirdPartyModule
 
   if (Test-Path HKCU:"\Software\SweetScape\010 Editor\CLASSES") {
@@ -128,5 +130,6 @@ function b64decode {
 
 # Print signature info of PE file.
 function dump_signature {
-  Get-AuthenticodeSignature $args[0] | Format-List
+  param ([string]$path)
+  Get-AuthenticodeSignature $path | Format-List
 }
