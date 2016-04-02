@@ -67,6 +67,7 @@ if ($host.Name -eq "ConsoleHost") {
   # Initialize aliases
   Set-Alias -name subl -value "$Env:ProgramFiles/Sublime Text 3/sublime_text.exe"
   Set-Alias -name hedit -value "$Env:ProgramFiles/010 Editor/010Editor.exe"
+  Set-Alias -name sourcetree -value "${Env:ProgramFiles(x86)}/Atlassian/SourceTree/SourceTree.exe"
 
   Set-Alias -name bcom -value "$TOOLS_BASE_PATH/Misc/Beyond Compare 4/BCompare.exe"
   Set-Alias -name ida32 -value "$TOOLS_BASE_PATH/IDA/IDA.Pro.v6.8/idaq.exe"
@@ -81,9 +82,7 @@ if ($host.Name -eq "ConsoleHost") {
 
   Set-Alias -name burp -value "$TOOLS_BASE_PATH/misc/burpsuite/burpsuite.bat"
 
-  Set-Alias -name sourcetree -value "${Env:ProgramFiles(x86)}/Atlassian/SourceTree/SourceTree.exe"
-
-  Set-Alias -name pypy3 -value "$TOOLS_BASE_PATH/Python/pypy3-2.4.0-win32/pypy.exe"
+  Set-Alias -name 7z -value "$TOOLS_BASE_PATH/misc/7-Zip/x64/7za.exe"
 
   InitializeThirdPartyModule
 
@@ -129,7 +128,33 @@ function b64decode {
 }
 
 # Print signature info of PE file.
-function dump_signature {
+function pe_signature {
   param ([string]$path)
   Get-AuthenticodeSignature $path | Format-List
+}
+
+function jar_signature {
+  param ([string]$path)
+  jarsigner -verify $path
+}
+
+# Copy and sign APK with default keystore.
+
+function sign_apk() {
+  param ([string]$path)
+
+  $path = Resolve-Path $path
+  $file = Get-ChildItem $path
+  $newPath = Join-Path $file.DirectoryName "$($file.BaseName)_signed$($file.Extension)"
+  if (Test-Path $newPath) {
+    Remove-Item -Path $newPath
+  }
+  Copy-Item -Destination $newPath $path
+  7z d $newPath "META-INF/*"
+
+  $keystorePath = Resolve-Path "~\.android\debug.keystore"
+  $defaultStorePass = "android"
+
+  jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 `
+            -keystore $keystorePath -storepass $defaultStorePass $newPath androiddebugkey
 }
