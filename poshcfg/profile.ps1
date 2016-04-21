@@ -24,7 +24,7 @@ function InitializePath {
 
     "$Env:JAVA_HOME/bin/",
 
-    "$TOOLS_BASE_PATH/Python/pypy-5.0.0-win32/"
+    "$TOOLS_BASE_PATH/Python/pypy-5.1.0-win32/"
   )
 
   $currentPaths = $Env:Path.Split(";")
@@ -38,12 +38,12 @@ function InitializePath {
 function InitializeThirdPartyModule {
   # Import posh-git from current user module
   $profileDir = Split-Path $PROFILE
-  $poshgitModule = Join-Path $profileDir "\Modules\thirdparty\posh-git\posh-git.psm1"
+  $poshgitModule = Join-Path $profileDir "/Modules/thirdparty/posh-git/posh-git.psm1"
   Import-Module $poshgitModule
   Start-SshAgent -Quiet
 
   # Initialize PowerLS, https://github.com/jrjurman/powerls
-  $powerLSModule = Join-Path $profileDir "\Modules\thirdparty\PowerLS\powerls.psm1"
+  $powerLSModule = Join-Path $profileDir "/Modules/thirdparty/PowerLS/powerls.psm1"
   Import-Module $powerLSModule
   Set-Alias -Name ls -Value PowerLS -Option AllScope
 }
@@ -152,7 +152,7 @@ function sign_apk() {
   Copy-Item -Destination $newPath $path
   7z d $newPath "META-INF/*"
 
-  $keystorePath = Resolve-Path "~\.android\debug.keystore"
+  $keystorePath = Resolve-Path "~/.android/debug.keystore"
   $defaultStorePass = "android"
 
   jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 `
