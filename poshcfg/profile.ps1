@@ -35,19 +35,6 @@ function InitializePath {
   $Env:Path = $Env:Path + ($newPaths -join ";")
 }
 
-function InitializeThirdPartyModule {
-  # Import posh-git from current user module
-  $profileDir = Split-Path $PROFILE
-  $poshgitModule = Join-Path $profileDir "/Modules/thirdparty/posh-git/posh-git.psm1"
-  Import-Module $poshgitModule
-  Start-SshAgent -Quiet
-
-  # Initialize PowerLS, https://github.com/jrjurman/powerls
-  $powerLSModule = Join-Path $profileDir "/Modules/thirdparty/PowerLS/powerls.psm1"
-  Import-Module $powerLSModule
-  Set-Alias -Name ls -Value PowerLS -Option AllScope
-}
-
 # Profile entry.
 
 Write-Host "Initializing..." -foregroundcolor DarkGray
@@ -60,7 +47,6 @@ Write-Host "Current ip:"
 }
 
 InitializePath
-
 
 if ($host.Name -eq "ConsoleHost") {
 
@@ -83,8 +69,6 @@ if ($host.Name -eq "ConsoleHost") {
   Set-Alias -name burp -value "$TOOLS_BASE_PATH/misc/burpsuite/burpsuite.bat"
 
   Set-Alias -name 7z -value "$TOOLS_BASE_PATH/misc/7-Zip/x64/7za.exe"
-
-  InitializeThirdPartyModule
 
   if (Test-Path HKCU:"\Software\SweetScape\010 Editor\CLASSES") {
     Remove-Item -Path HKCU:"\Software\SweetScape\010 Editor\CLASSES" -Recurse
