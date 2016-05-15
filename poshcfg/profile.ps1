@@ -12,19 +12,16 @@ function InitializePath {
     # git and msys
     "$TOOLS_BASE_PATH/Git/bin/",
     "$TOOLS_BASE_PATH/Git/usr/bin/",
-
     # adb.exe
     "$TOOLS_BASE_PATH/android/sdk/platform-tools/",
     # aapt.exe etc.
-    "$TOOLS_BASE_PATH/android/sdk/build-tools/23.0.2/",
+    "$TOOLS_BASE_PATH/android/sdk/build-tools/24.0.0-preview/",
     # ndk-build
     "$TOOLS_BASE_PATH/android/ndk/",
     # arm*readelf.exe etc.
     "$TOOLS_BASE_PATH/android/ndk/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64/bin/",
-
     "$Env:JAVA_HOME/bin/",
-
-    "$TOOLS_BASE_PATH/Python/pypy-5.1.0-win32/"
+    "$TOOLS_BASE_PATH/Python/Launcher"
   )
 
   $currentPaths = $Env:Path.Split(";")
@@ -68,7 +65,13 @@ if ($host.Name -eq "ConsoleHost") {
 
   Set-Alias -name burp -value "$TOOLS_BASE_PATH/misc/burpsuite/burpsuite.bat"
 
-  Set-Alias -name 7z -value "$TOOLS_BASE_PATH/misc/7-Zip/x64/7za.exe"
+  Set-Alias -name 7z -value "$TOOLS_BASE_PATH/misc/7-Zip/7z.exe"
+  
+  Set-Alias -Name python3 -Value "$TOOLS_BASE_PATH/Python/Python35-32/python.exe"
+  Set-Alias -Name pip3 -Value "$TOOLS_BASE_PATH/Python/Python35-32/Scripts/pip3.exe"
+
+  Set-Alias -Name pypy -Value "$TOOLS_BASE_PATH/Python/pypy/pypy.exe"
+  Set-Alias -Name pypy3 -Value "$TOOLS_BASE_PATH/Python/pypy3/pypy.exe"
 
   if (Test-Path HKCU:"\Software\SweetScape\010 Editor\CLASSES") {
     Remove-Item -Path HKCU:"\Software\SweetScape\010 Editor\CLASSES" -Recurse
