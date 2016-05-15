@@ -100,6 +100,11 @@ function forward_ida {
   adb forward tcp:23946 tcp:23946
 }
 
+function forward_frida {
+  adb forward tcp:27042 tcp:27042
+  adb forward tcp:27043 tcp:27043
+}
+
 # Base64 encode/decode helper.
 function b64encode {
   param ([string]$content)
