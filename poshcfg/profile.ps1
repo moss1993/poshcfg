@@ -66,7 +66,7 @@ if ($host.Name -eq "ConsoleHost") {
   Set-Alias -name burp -value "$TOOLS_BASE_PATH/misc/burpsuite/burpsuite.bat"
 
   Set-Alias -name 7z -value "$TOOLS_BASE_PATH/misc/7-Zip/7z.exe"
-  
+
   Set-Alias -Name python3 -Value "$TOOLS_BASE_PATH/Python/Python35-32/python.exe"
   Set-Alias -Name pip3 -Value "$TOOLS_BASE_PATH/Python/Python35-32/Scripts/pip3.exe"
 
@@ -108,14 +108,14 @@ function forward_frida {
 # Base64 encode/decode helper.
 function b64encode {
   param ([string]$content)
-  $bytes = [System.Text.Encoding]::Unicode.GetBytes($content)
+  $bytes = [System.Text.Encoding]::ASCII.GetBytes($content)
   $encodedText = [Convert]::ToBase64String($bytes)
   Write-Host $encodedText
 }
 
 function b64decode {
   param ([string]$content)
-  $decodedText = [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($content))
+  $decodedText = [System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String($content))
   Write-Host $decodedText
 }
 
