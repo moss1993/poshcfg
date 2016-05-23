@@ -91,7 +91,7 @@ function gll {
 
 function drozer {
   adb forward tcp:31415 tcp:31415
-  cd "$env:HOME/Documents/code/python/drozer"
+  cd "$env:USERPROFILE/Documents/code/python/drozer"
   .\drozer.py $args
 }
 
