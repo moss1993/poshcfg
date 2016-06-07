@@ -79,6 +79,7 @@ if ($host.Name -eq "ConsoleHost") {
   if (Test-Path HKCU:"\SOFTWARE\Scooter Software\Beyond Compare 4") {
     Remove-Item -Path HKCU:"\SOFTWARE\Scooter Software\Beyond Compare 4" -Recurse
   }
+  Start-SshAgent -Quiet
 }
 
 # some Git commands.
