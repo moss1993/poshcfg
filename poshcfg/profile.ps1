@@ -15,7 +15,7 @@ function InitializePath {
     # adb.exe
     "$TOOLS_BASE_PATH/android/sdk/platform-tools/",
     # aapt.exe etc.
-    "$TOOLS_BASE_PATH/android/sdk/build-tools/24.0.0-preview/",
+    "$TOOLS_BASE_PATH/android/sdk/build-tools/24.0.0/",
     # ndk-build
     "$TOOLS_BASE_PATH/android/ndk/",
     # arm*readelf.exe etc.
