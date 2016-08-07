@@ -20,16 +20,11 @@ function InitializePath {
     "$TOOLS_BASE_PATH/android/ndk/",
     # arm*readelf.exe etc.
     "$TOOLS_BASE_PATH/android/ndk/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64/bin/",
-    "$Env:JAVA_HOME/bin/",
-    "$TOOLS_BASE_PATH/Python/Launcher"
+    "$Env:JAVA_HOME/bin/"
   )
 
   $currentPaths = $Env:Path.Split(";")
-  $Env:Path = $currentPaths -join ";"
-  if (!$Env:Path.EndsWith(";")) {
-    $Env:Path += ";"
-  }
-  $Env:Path = $Env:Path + ($newPaths -join ";")
+  $Env:Path = ($currentPaths += $newPaths) -join ";"
 }
 
 # Profile entry.
@@ -53,6 +48,7 @@ if ($host.Name -eq "ConsoleHost") {
   Set-Alias -name sourcetree -value "${Env:ProgramFiles(x86)}/Atlassian/SourceTree/SourceTree.exe"
 
   Set-Alias -name bcom -value "$TOOLS_BASE_PATH/Misc/Beyond Compare 4/BCompare.exe"
+  # TODO: force python27 as default before use ida.
   Set-Alias -name ida32 -value "$TOOLS_BASE_PATH/IDA/IDA.Pro.v6.8/idaq.exe"
   Set-Alias -name ida64 -value "$TOOLS_BASE_PATH/IDA/IDA.Pro.v6.8/idaq64.exe"
 
@@ -69,6 +65,9 @@ if ($host.Name -eq "ConsoleHost") {
 
   Set-Alias -Name python3 -Value "$TOOLS_BASE_PATH/Python/Python35-32/python.exe"
   Set-Alias -Name pip3 -Value "$TOOLS_BASE_PATH/Python/Python35-32/Scripts/pip3.exe"
+
+  Set-Alias -Name python2 -Value "$TOOLS_BASE_PATH/Python/Python27/python.exe"
+  Set-Alias -Name pip2 -Value "$TOOLS_BASE_PATH/Python/Python27/Scripts/pip3.exe"
 
   Set-Alias -Name pypy -Value "$TOOLS_BASE_PATH/Python/pypy/pypy.exe"
   Set-Alias -Name pypy3 -Value "$TOOLS_BASE_PATH/Python/pypy3/pypy.exe"
@@ -150,4 +149,22 @@ function sign_apk() {
 
   jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 `
             -keystore $keystorePath -storepass $defaultStorePass $newPath androiddebugkey
+}
+
+function switch_python() {
+  $python27Path = @("$TOOLS_BASE_PATH/Python/Python27/",
+    "$TOOLS_BASE_PATH/Python/Python27/Scripts")
+
+  $python35Path = @("$TOOLS_BASE_PATH/Python/Python35-32/",
+    "$TOOLS_BASE_PATH/Python/Python35-32/Scripts")
+
+  # A little bit risky.
+  if ($env:Path.ToLower() -match "python27") {
+    $entries = $env:Path.Split(";") | Where { $_.ToLower().IndexOf("python27") -eq -1 }
+    $Env:Path = ($entries += $python35Path) -join ";"
+  }
+  elseif ($env:Path.ToLower() -match "python35") {
+    $entries = $env:Path.Split(";") | Where { $_.ToLower().IndexOf("python35") -eq -1 }
+    $Env:Path = ($entries += $python27Path) -join ";"
+  }
 }
