@@ -5,6 +5,7 @@
 Import-Module PSColors
 
 $TOOLS_BASE_PATH = "$env:LOCALAPPDATA/Programs"
+$NDK_ROOT = "C:/ProgramData/Microsoft/AndroidNDK64/android-ndk-r11c"
 
 function InitializePath {
 
@@ -15,12 +16,11 @@ function InitializePath {
     # adb.exe
     "$TOOLS_BASE_PATH/android/sdk/platform-tools/",
     # aapt.exe etc.
-    "$TOOLS_BASE_PATH/android/sdk/build-tools/24.0.0/",
+    "$TOOLS_BASE_PATH/android/sdk/build-tools/24.0.1/",
     # ndk-build
-    "$TOOLS_BASE_PATH/android/ndk/",
+    $NDK_ROOT,
     # arm*readelf.exe etc.
-    "$TOOLS_BASE_PATH/android/ndk/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64/bin/",
-    "$Env:JAVA_HOME/bin/"
+    "$NDK_ROOT/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64/bin/"
   )
 
   $currentPaths = $Env:Path.Split(";")
@@ -67,7 +67,7 @@ if ($host.Name -eq "ConsoleHost") {
   Set-Alias -Name pip3 -Value "$TOOLS_BASE_PATH/Python/Python35-32/Scripts/pip3.exe"
 
   Set-Alias -Name python2 -Value "$TOOLS_BASE_PATH/Python/Python27/python.exe"
-  Set-Alias -Name pip2 -Value "$TOOLS_BASE_PATH/Python/Python27/Scripts/pip3.exe"
+  Set-Alias -Name pip2 -Value "$TOOLS_BASE_PATH/Python/Python27/Scripts/pip2.exe"
 
   Set-Alias -Name pypy -Value "$TOOLS_BASE_PATH/Python/pypy/pypy.exe"
   Set-Alias -Name pypy3 -Value "$TOOLS_BASE_PATH/Python/pypy3/pypy.exe"
@@ -91,7 +91,7 @@ function gll {
 
 function drozer {
   adb forward tcp:31415 tcp:31415
-  cd "$env:USERPROFILE/Documents/code/python/drozer"
+  Set-Location "$env:USERPROFILE/Documents/code/python/drozer"
   .\drozer.py $args
 }
 
@@ -160,11 +160,11 @@ function switch_python() {
 
   # A little bit risky.
   if ($env:Path.ToLower() -match "python27") {
-    $entries = $env:Path.Split(";") | Where { $_.ToLower().IndexOf("python27") -eq -1 }
+    $entries = $env:Path.Split(";") | Where-Object { $_.ToLower().IndexOf("python27") -eq -1 }
     $Env:Path = ($entries += $python35Path) -join ";"
   }
   elseif ($env:Path.ToLower() -match "python35") {
-    $entries = $env:Path.Split(";") | Where { $_.ToLower().IndexOf("python35") -eq -1 }
+    $entries = $env:Path.Split(";") | Where-Object { $_.ToLower().IndexOf("python35") -eq -1 }
     $Env:Path = ($entries += $python27Path) -join ";"
   }
 }
