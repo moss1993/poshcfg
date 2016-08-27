@@ -44,10 +44,12 @@ if ($host.Name -eq "ConsoleHost") {
 
   # Initialize aliases
   Set-Alias -name subl -value "$Env:ProgramFiles/Sublime Text 3/sublime_text.exe"
+  Set-Alias -name vscode -value "$TOOLS_BASE_PATH/VSCode/code.exe"
+
   Set-Alias -name hedit -value "$Env:ProgramFiles/010 Editor/010Editor.exe"
   Set-Alias -name sourcetree -value "${Env:ProgramFiles(x86)}/Atlassian/SourceTree/SourceTree.exe"
 
-  Set-Alias -name bcom -value "$TOOLS_BASE_PATH/Misc/Beyond Compare 4/BCompare.exe"
+  Set-Alias -name bcom -value "$TOOLS_BASE_PATH/Beyond Compare 4/BCompare.exe"
   # TODO: force python27 as default before use ida.
   Set-Alias -name ida32 -value "$TOOLS_BASE_PATH/IDA/IDA.Pro.v6.8/idaq.exe"
   Set-Alias -name ida64 -value "$TOOLS_BASE_PATH/IDA/IDA.Pro.v6.8/idaq64.exe"
@@ -59,9 +61,9 @@ if ($host.Name -eq "ConsoleHost") {
   Set-Alias -name smali -value "$TOOLS_BASE_PATH/android/apktool/smali.bat"
   Set-Alias -name baksmali -value "$TOOLS_BASE_PATH/android/apktool/baksmali.bat"
 
-  Set-Alias -name burp -value "$TOOLS_BASE_PATH/misc/burpsuite/burpsuite.bat"
+  Set-Alias -name burp -value "$TOOLS_BASE_PATH/burpsuite/burpsuite.bat"
 
-  Set-Alias -name 7z -value "$TOOLS_BASE_PATH/misc/7-Zip/7z.exe"
+  Set-Alias -name 7z -value "$TOOLS_BASE_PATH/7-Zip/7z.exe"
 
   Set-Alias -Name python3 -Value "$TOOLS_BASE_PATH/Python/Python35-32/python.exe"
   Set-Alias -Name pip3 -Value "$TOOLS_BASE_PATH/Python/Python35-32/Scripts/pip3.exe"
