@@ -20,7 +20,9 @@ function InitializePath {
     # ndk-build
     $NDK_ROOT,
     # arm*readelf.exe etc.
-    "$NDK_ROOT/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64/bin/"
+    "$NDK_ROOT/toolchains/arm-linux-androideabi-4.9/prebuilt/windows-x86_64/bin/",
+    # pypy
+    "$TOOLS_BASE_PATH/Python/pypy/"
   )
 
   $currentPaths = $Env:Path.Split(";")
@@ -55,6 +57,7 @@ if ($host.Name -eq "ConsoleHost") {
   Set-Alias -name ida64 -value "$TOOLS_BASE_PATH/IDA/IDA.Pro.v6.8/idaq64.exe"
 
   Set-Alias -name jeb -value "$TOOLS_BASE_PATH/android/jeb-1.5.201508100/jeb_wincon.bat"
+  Set-Alias -name jeb2 -value "$TOOLS_BASE_PATH/android/jeb-2.0.6.201508252211/bin/jeb.exe"
   Set-Alias -name ddms -value "$TOOLS_BASE_PATH/android/sdk/tools/monitor.bat"
 
   Set-Alias -name apktool -value "$TOOLS_BASE_PATH/android/apktool/apktool.bat"
