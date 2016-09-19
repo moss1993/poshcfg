@@ -96,8 +96,9 @@ function gll {
 
 function drozer {
   adb forward tcp:31415 tcp:31415
-  Set-Location "$env:USERPROFILE/Documents/code/python/drozer"
-  .\drozer.py $args
+  $drozerBasePath = "$env:USERPROFILE/Documents/code/python/drozer"
+  $env:PYTHONPATH = "$TOOLS_BASE_PATH/Python/Python27/Lib/site-packages;$drozerBasePath/src"
+  python2 "$drozerBasePath/bin/drozer" $args
 }
 
 # forward android_server port
