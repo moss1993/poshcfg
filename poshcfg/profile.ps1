@@ -139,7 +139,9 @@ function jar_signature {
 # Copy and sign APK with default keystore.
 
 function sign_apk() {
-  param ([string]$path)
+  param ([string]$path, 
+  [string]$keystorePath = "~/.android/debug.keystore", 
+  [string]$defaultStorePass = "android")
 
   $path = Resolve-Path $path
   $file = Get-ChildItem $path
@@ -150,8 +152,7 @@ function sign_apk() {
   Copy-Item -Destination $newPath $path
   7z d $newPath "META-INF/*"
 
-  $keystorePath = Resolve-Path "~/.android/debug.keystore"
-  $defaultStorePass = "android"
+  $keystorePath = Resolve-Path $keystorePath
 
   jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 `
             -keystore $keystorePath -storepass $defaultStorePass $newPath androiddebugkey
