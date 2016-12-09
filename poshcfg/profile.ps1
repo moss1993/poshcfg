@@ -57,7 +57,7 @@ if ($host.Name -eq "ConsoleHost") {
   Set-Alias -name ida64 -value "$TOOLS_BASE_PATH/IDA/IDA.Pro.v6.8/idaq64.exe"
 
   Set-Alias -name jeb -value "$TOOLS_BASE_PATH/android/jeb-1.5.201508100/jeb_wincon.bat"
-  Set-Alias -name jeb2 -value "$TOOLS_BASE_PATH/android/jeb-2.0.6.201508252211/bin/jeb.exe"
+  Set-Alias -name jeb2 -value "$TOOLS_BASE_PATH/android/jeb-2.0.6.201508252211/jeb_wincon.bat"
   Set-Alias -name ddms -value "$TOOLS_BASE_PATH/android/sdk/tools/monitor.bat"
 
   Set-Alias -name apktool -value "$TOOLS_BASE_PATH/android/apktool/apktool.bat"
@@ -139,8 +139,8 @@ function jar_signature {
 # Copy and sign APK with default keystore.
 
 function sign_apk() {
-  param ([string]$path, 
-  [string]$keystorePath = "~/.android/debug.keystore", 
+  param ([string]$path,
+  [string]$keystorePath = "~/.android/debug.keystore",
   [string]$defaultStorePass = "android")
 
   $path = Resolve-Path $path
