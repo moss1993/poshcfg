@@ -175,3 +175,9 @@ function switch_python() {
     $Env:Path = ($entries += $python27Path) -join ";"
   }
 }
+
+function enjarify() {
+  $enjarifyPath = "$env:USERPROFILE/Documents/code/python/enjarify"
+  $env:PYTHONPATH = "$TOOLS_BASE_PATH/Python/Python35-32/Lib/site-packages;$enjarifyPath"
+  python3 -O -m enjarify.main $args
+}
