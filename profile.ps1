@@ -68,8 +68,8 @@ if ($host.Name -eq "ConsoleHost") {
 
   Set-Alias -name 7z -value "$TOOLS_BASE_PATH/7-Zip/7z.exe"
 
-  Set-Alias -Name python3 -Value "$TOOLS_BASE_PATH/Python/Python35/python.exe"
-  Set-Alias -Name pip3 -Value "$TOOLS_BASE_PATH/Python/Python35/Scripts/pip3.exe"
+  Set-Alias -Name python3 -Value "$TOOLS_BASE_PATH/Python/Python36/python.exe"
+  Set-Alias -Name pip3 -Value "$TOOLS_BASE_PATH/Python/Python36/Scripts/pip3.exe"
 
   Set-Alias -Name python2 -Value "$TOOLS_BASE_PATH/Python/Python27/python.exe"
   Set-Alias -Name pip2 -Value "$TOOLS_BASE_PATH/Python/Python27/Scripts/pip2.exe"
@@ -162,22 +162,22 @@ function switch_python() {
   $python27Path = @("$TOOLS_BASE_PATH/Python/Python27/",
     "$TOOLS_BASE_PATH/Python/Python27/Scripts")
 
-  $python35Path = @("$TOOLS_BASE_PATH/Python/Python35/",
-    "$TOOLS_BASE_PATH/Python/Python35/Scripts")
+  $Python36Path = @("$TOOLS_BASE_PATH/Python/Python36/",
+    "$TOOLS_BASE_PATH/Python/Python36/Scripts")
 
   # A little bit risky.
   if ($env:Path.ToLower() -match "python27") {
     $entries = $env:Path.Split(";") | Where-Object { $_.ToLower().IndexOf("python27") -eq -1 }
-    $Env:Path = ($entries += $python35Path) -join ";"
+    $Env:Path = ($entries += $Python36Path) -join ";"
   }
-  elseif ($env:Path.ToLower() -match "python35") {
-    $entries = $env:Path.Split(";") | Where-Object { $_.ToLower().IndexOf("python35") -eq -1 }
+  elseif ($env:Path.ToLower() -match "Python36") {
+    $entries = $env:Path.Split(";") | Where-Object { $_.ToLower().IndexOf("Python36") -eq -1 }
     $Env:Path = ($entries += $python27Path) -join ";"
   }
 }
 
 function enjarify() {
   $enjarifyPath = "$env:USERPROFILE/Documents/code/python/enjarify"
-  $env:PYTHONPATH = "$TOOLS_BASE_PATH/Python/Python35/Lib/site-packages;$enjarifyPath"
+  $env:PYTHONPATH = "$TOOLS_BASE_PATH/Python/Python36/Lib/site-packages;$enjarifyPath"
   python3 -O -m enjarify.main $args
 }
