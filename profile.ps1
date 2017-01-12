@@ -22,7 +22,7 @@ function InitializePath {
     "$TOOLS_BASE/android/sdk/build-tools/25.0.2/",
     # ndk-build
     $NDK_ROOT,
-    # FIXME: support aarch64 & arm. 
+    # FIXME: support aarch64 & arm.
     # pypy
     "$TOOLS_BASE/Python/pypy/"
   )
@@ -100,8 +100,8 @@ function sign_apk() {
 # python staff
 
 function clear_python() {
-  $entries = $env:Path.Split(";") | Where-Object { 
-    ($_.ToLower().IndexOf("python27") -eq -1) -and 
+  $entries = $env:Path.Split(";") | Where-Object {
+    ($_.ToLower().IndexOf("python27") -eq -1) -and
       ($_.ToLower().IndexOf("python36") -eq -1)
   }
   $Env:Path = $entries -join ";"
@@ -142,12 +142,12 @@ function sqlmap() {
   python2 "$env:USERPROFILE/Documents/code/python/sqlmap/sqlmap.py" $args
 }
 
-# IDA 
+# IDA
 function ida32() {
   use_py2
   idaq32 $args
   use_py3
-} 
+}
 
 function ida64() {
   use_py2
@@ -181,7 +181,7 @@ if ($host.Name -eq "ConsoleHost") {
   Set-Alias -name sourcetree -value "${Env:ProgramFiles(x86)}/Atlassian/SourceTree/SourceTree.exe"
 
   Set-Alias -name bcom -value "$TOOLS_BASE/Beyond Compare 4/BCompare.exe"
-  
+
   Set-Alias -name idaq32 -value "$TOOLS_BASE/IDA/IDA.Pro.v6.95/idaq.exe"
   Set-Alias -name idaq64 -value "$TOOLS_BASE/IDA/IDA.Pro.v6.95/idaq64.exe"
 
@@ -192,6 +192,7 @@ if ($host.Name -eq "ConsoleHost") {
   Set-Alias -name apktool -value "$TOOLS_BASE/android/apktool/apktool.bat"
   Set-Alias -name smali -value "$TOOLS_BASE/android/apktool/smali.bat"
   Set-Alias -name baksmali -value "$TOOLS_BASE/android/apktool/baksmali.bat"
+  Set-Alias -name axmlprinter -value "$TOOLS_BASE/android/apktool/axmlprinter.bat"
 
   Set-Alias -name burp -value "$TOOLS_BASE/burpsuite/burpsuite.bat"
 
