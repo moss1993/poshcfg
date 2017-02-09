@@ -206,6 +206,8 @@ if ($host.Name -eq "ConsoleHost") {
 
   Set-Alias -Name pypy -Value "$TOOLS_BASE/Python/pypy/pypy.exe"
 
+  Set-Alias -Name pandoc -Value "$env:LOCALAPPDATA/Pandoc/pandoc.exe"
+
   if (Test-Path HKCU:"\Software\SweetScape\010 Editor\CLASSES") {
     Remove-Item -Path HKCU:"\Software\SweetScape\010 Editor\CLASSES" -Recurse
   }
