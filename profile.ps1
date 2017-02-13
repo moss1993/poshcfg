@@ -23,8 +23,9 @@ function InitializePath {
     # ndk-build
     $NDK_ROOT,
     # FIXME: support aarch64 & arm.
-    # pypy
-    "$TOOLS_BASE/Python/pypy/"
+
+    # Pandoc
+    "$env:LOCALAPPDATA/Pandoc/"
   )
 
   $currentPaths = $Env:Path.Split(";")
@@ -205,8 +206,6 @@ if ($host.Name -eq "ConsoleHost") {
   Set-Alias -Name pip2 -Value "$PYTHON27_ROOT/Scripts/pip2.exe"
 
   Set-Alias -Name pypy -Value "$TOOLS_BASE/Python/pypy/pypy.exe"
-
-  Set-Alias -Name pandoc -Value "$env:LOCALAPPDATA/Pandoc/pandoc.exe"
 
   if (Test-Path HKCU:"\Software\SweetScape\010 Editor\CLASSES") {
     Remove-Item -Path HKCU:"\Software\SweetScape\010 Editor\CLASSES" -Recurse
