@@ -207,6 +207,8 @@ if ($host.Name -eq "ConsoleHost") {
 
   Set-Alias -Name pypy -Value "$TOOLS_BASE/Python/pypy/pypy.exe"
 
+  Set-Alias -Name readelf -Value "$NDK_ROOT/toolchains/aarch64-linux-android-4.9/prebuilt/windows-x86_64/bin/aarch64-linux-android-readelf.exe"
+
   if (Test-Path HKCU:"\Software\SweetScape\010 Editor\CLASSES") {
     Remove-Item -Path HKCU:"\Software\SweetScape\010 Editor\CLASSES" -Recurse
   }
