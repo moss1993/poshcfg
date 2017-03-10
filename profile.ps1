@@ -5,7 +5,7 @@
 Import-Module PSColors
 
 $TOOLS_BASE = "$env:LOCALAPPDATA/Programs"
-$NDK_ROOT = "C:/ProgramData/Microsoft/AndroidNDK64/android-ndk-r11c"
+$NDK_ROOT = "$TOOLS_BASE/android/ndk/"
 
 $PYTHON27_ROOT = "$TOOLS_BASE/Python/Python27"
 $PYTHON36_ROOT = "$TOOLS_BASE/Python/Python36"
