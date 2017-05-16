@@ -175,11 +175,7 @@ use_py3
 if ($host.Name -eq "ConsoleHost") {
 
   # Initialize aliases
-  Set-Alias -name subl -value "$Env:ProgramFiles/Sublime Text 3/sublime_text.exe"
-  Set-Alias -name vscode -value "$TOOLS_BASE/VSCode/code.exe"
-
   Set-Alias -name hedit -value "$Env:ProgramFiles/010 Editor/010Editor.exe"
-  Set-Alias -name sourcetree -value "${Env:ProgramFiles(x86)}/Atlassian/SourceTree/SourceTree.exe"
 
   Set-Alias -name bcom -value "$TOOLS_BASE/Beyond Compare 4/BCompare.exe"
 
