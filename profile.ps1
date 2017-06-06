@@ -1,29 +1,29 @@
-﻿#
+#
 # profile.ps1
 #
 
 Import-Module PSColors
 
-$TOOLS_BASE = "$env:LOCALAPPDATA/Programs"
-$NDK_ROOT = "$TOOLS_BASE/android/ndk/"
+$LOCAL_PROGRAMS = "$env:LOCALAPPDATA/Programs"
 
-$PYTHON27_ROOT = "$TOOLS_BASE/Python/Python27"
-$PYTHON36_ROOT = "$TOOLS_BASE/Python/Python36"
+$PYTHON27_ROOT = "$LOCAL_PROGRAMS/Python/Python27"
+$PYTHON36_ROOT = "$LOCAL_PROGRAMS/Python/Python36"
+
+$env:ANDROID_SDK_HOME = "$LOCAL_PROGRAMS/android/sdk"
+$env:ANDROID_NDK_HOME = "$LOCAL_PROGRAMS/android/ndk"
 
 function InitializePath {
 
   $newPaths = @(
     # git and msys
-    "$TOOLS_BASE/Git/bin/",
-    "$TOOLS_BASE/Git/usr/bin/",
+    "$LOCAL_PROGRAMS/Git/bin/",
+    "$LOCAL_PROGRAMS/Git/usr/bin/",
     # adb.exe
-    "$TOOLS_BASE/android/sdk/platform-tools/",
+    "$env:ANDROID_SDK_HOME/platform-tools/",
     # aapt.exe etc.
-    "$TOOLS_BASE/android/sdk/build-tools/25.0.2/",
+    "$env:ANDROID_SDK_HOME/build-tools/25.0.3/",
     # ndk-build
-    $NDK_ROOT,
-    # FIXME: support aarch64 & arm.
-
+    "$env:ANDROID_NDK_HOME",
     # Pandoc
     "$env:LOCALAPPDATA/Pandoc/"
   )
@@ -90,7 +90,7 @@ function sign_apk() {
     Remove-Item -Path $newPath
   }
   Copy-Item -Destination $newPath $path
-  7z d $newPath "META-INF/*"
+  zip -d $newPath "META-INF/*"
 
   $keystorePath = Resolve-Path $keystorePath
 
@@ -129,14 +129,8 @@ function use_py3() {
 function drozer {
   adb forward tcp:31415 tcp:31415
   $drozerBasePath = "$env:USERPROFILE/Documents/code/python/drozer"
-  $env:PYTHONPATH = "$TOOLS_BASE/Python/Python27/Lib/site-packages;$drozerBasePath/src"
+  $env:PYTHONPATH = "$LOCAL_PROGRAMS/Python/Python27/Lib/site-packages;$drozerBasePath/src"
   python2 "$drozerBasePath/bin/drozer" $args
-}
-
-function enjarify() {
-  $enjarifyPath = "$env:USERPROFILE/Documents/code/python/enjarify"
-  $env:PYTHONPATH = "$TOOLS_BASE/Python/Python36/Lib/site-packages;$enjarifyPath"
-  python3 -O -m enjarify.main $args
 }
 
 function sqlmap() {
@@ -177,23 +171,23 @@ if ($host.Name -eq "ConsoleHost") {
   # Initialize aliases
   Set-Alias -name hedit -value "$Env:ProgramFiles/010 Editor/010Editor.exe"
 
-  Set-Alias -name bcom -value "$TOOLS_BASE/Beyond Compare 4/BCompare.exe"
+  Set-Alias -name bcom -value "$LOCAL_PROGRAMS/Beyond Compare 4/BCompare.exe"
 
-  Set-Alias -name idaq32 -value "$TOOLS_BASE/IDA/IDA.Pro.v6.95/idaq.exe"
-  Set-Alias -name idaq64 -value "$TOOLS_BASE/IDA/IDA.Pro.v6.95/idaq64.exe"
+  Set-Alias -name idaq32 -value "$LOCAL_PROGRAMS/IDA/IDA.Pro.v6.95/idaq.exe"
+  Set-Alias -name idaq64 -value "$LOCAL_PROGRAMS/IDA/IDA.Pro.v6.95/idaq64.exe"
 
-  Set-Alias -name jeb -value "$TOOLS_BASE/android/jeb-1.5.201508100/jeb_wincon.bat"
-  Set-Alias -name jeb2 -value "$TOOLS_BASE/android/jeb-2.0.6.201508252211/jeb_wincon.bat"
-  Set-Alias -name ddms -value "$TOOLS_BASE/android/sdk/tools/monitor.bat"
+  Set-Alias -name jeb -value "$LOCAL_PROGRAMS/android/jeb-1.5.201508100/jeb_wincon.bat"
+  Set-Alias -name jeb2 -value "$LOCAL_PROGRAMS/android/jeb-2.0.6.201508252211/jeb_wincon.bat"
+  Set-Alias -name ddms -value "$LOCAL_PROGRAMS/android/sdk/tools/monitor.bat"
 
-  Set-Alias -name apktool -value "$TOOLS_BASE/android/apktool/apktool.bat"
-  Set-Alias -name smali -value "$TOOLS_BASE/android/apktool/smali.bat"
-  Set-Alias -name baksmali -value "$TOOLS_BASE/android/apktool/baksmali.bat"
-  Set-Alias -name axmlprinter -value "$TOOLS_BASE/android/apktool/axmlprinter.bat"
+  Set-Alias -name apktool -value "$LOCAL_PROGRAMS/android/apktool/apktool.bat"
+  Set-Alias -name smali -value "$LOCAL_PROGRAMS/android/apktool/smali.bat"
+  Set-Alias -name baksmali -value "$LOCAL_PROGRAMS/android/apktool/baksmali.bat"
 
-  Set-Alias -name burp -value "$TOOLS_BASE/burpsuite/burpsuite.bat"
+  Set-Alias -name burp -value "$LOCAL_PROGRAMS/burpsuite/burpsuite.bat"
 
-  Set-Alias -name 7z -value "$TOOLS_BASE/7-Zip/7z.exe"
+  Set-Alias -name 7z -value "$LOCAL_PROGRAMS/7-Zip/7za.exe"
+  Set-Alias -name zip -value "$LOCAL_PROGRAMS/7-Zip/zip.exe"
 
   Set-Alias -Name python3 -Value "$PYTHON36_ROOT/python.exe"
   Set-Alias -Name pip3 -Value "$PYTHON36_ROOT/Scripts/pip3.exe"
@@ -201,9 +195,7 @@ if ($host.Name -eq "ConsoleHost") {
   Set-Alias -Name python2 -Value "$PYTHON27_ROOT/python.exe"
   Set-Alias -Name pip2 -Value "$PYTHON27_ROOT/Scripts/pip2.exe"
 
-  Set-Alias -Name pypy -Value "$TOOLS_BASE/Python/pypy/pypy.exe"
-
-  Set-Alias -Name readelf -Value "$NDK_ROOT/toolchains/aarch64-linux-android-4.9/prebuilt/windows-x86_64/bin/aarch64-linux-android-readelf.exe"
+  Set-Alias -Name pypy -Value "$LOCAL_PROGRAMS/Python/pypy/pypy.exe"
 
   if (Test-Path HKCU:"\Software\SweetScape\010 Editor\CLASSES") {
     Remove-Item -Path HKCU:"\Software\SweetScape\010 Editor\CLASSES" -Recurse
