@@ -21,7 +21,7 @@ function InitializePath {
     # adb.exe
     "$env:ANDROID_SDK_HOME/platform-tools/",
     # aapt.exe etc.
-    "$env:ANDROID_SDK_HOME/build-tools/25.0.3/",
+    "$env:ANDROID_SDK_HOME/build-tools/26.0.0/",
     # ndk-build
     "$env:ANDROID_NDK_HOME",
     # Pandoc
@@ -186,8 +186,7 @@ if ($host.Name -eq "ConsoleHost") {
 
   Set-Alias -name burp -value "$LOCAL_PROGRAMS/burpsuite/burpsuite.bat"
 
-  Set-Alias -name 7z -value "$LOCAL_PROGRAMS/7-Zip/7za.exe"
-  Set-Alias -name zip -value "$LOCAL_PROGRAMS/7-Zip/zip.exe"
+  Set-Alias -name zip -value "$LOCAL_PROGRAMS/zip/zip.exe"
 
   Set-Alias -Name python3 -Value "$PYTHON36_ROOT/python.exe"
   Set-Alias -Name pip3 -Value "$PYTHON36_ROOT/Scripts/pip3.exe"
