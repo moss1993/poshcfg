@@ -83,7 +83,8 @@ function jar_signature {
 function sign_apk() {
   param ([string]$path,
   [string]$keystorePath = "~/.android/debug.keystore",
-  [string]$defaultStorePass = "android")
+  [string]$defaultStorePass = "android",
+  [string]$alias = "androiddebugkey")
 
   $path = Resolve-Path $path
   $file = Get-ChildItem $path
@@ -92,12 +93,35 @@ function sign_apk() {
     Remove-Item -Path $newPath
   }
   Copy-Item -Destination $newPath $path
-  zip -d $newPath "META-INF/*"
+  zip -d $newPath "META-INF/*.RSA"
+  zip -d $newPath "META-INF/*.DSA"
+  zip -d $newPath "META-INF/*.SF"
+  zip -d $newPath "META-INF/MANIFEST.MF"
 
   $keystorePath = Resolve-Path $keystorePath
 
   jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 `
-            -keystore $keystorePath -storepass $defaultStorePass $newPath androiddebugkey
+            -keystore $keystorePath -storepass $defaultStorePass $newPath $alias
+}
+
+function get_apk_info() {
+  param ([string]$path)
+  $command = "aapt d badging '{0}'" -f $path
+  $default_encoding = [Console]::OutputEncoding
+  [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+  $output = Invoke-Expression "$command 2>&1"
+  [Console]::OutputEncoding = $default_encoding
+  if ($LASTEXITCODE -ne 0) {
+    throw $output
+  }
+  $package_name = [regex]::Match($output, "(?smi)(?<=package:\sname=\')(.*?)(?=\')").Value
+  $version_code = [regex]::Match($output, "(?smi)(?<=versionCode=\')(.*?)(?=\')").Value
+  $version_name = [regex]::Match($output, "(?smi)(?<=versionName=\')(.*?)(?=\')").Value
+  $application_label = [regex]::Match($output, "(?smi)(?<=application:\slabel=\')(.*?)(?=\')").Value
+  Write-Host ("Application Label: " + $application_label) -foregroundcolor DarkGray
+  Write-Host ("Package Name: " + $package_name) -foregroundcolor DarkGray
+  Write-Host ("Version Name: " + $version_name) -foregroundcolor DarkGray
+  Write-Host ("Version Code: " + $version_code) -foregroundcolor DarkGray
 }
 
 # python staff
@@ -135,10 +159,6 @@ function drozer {
   python2 "$drozerBasePath/bin/drozer" $args
 }
 
-function sqlmap() {
-  python2 "$env:USERPROFILE/Documents/code/python/sqlmap/sqlmap.py" $args
-}
-
 # IDA
 function ida32() {
   use_py2
@@ -169,35 +189,7 @@ InitializePath
 use_py3
 
 if ($host.Name -eq "ConsoleHost") {
-
-  # Initialize aliases
-  Set-Alias -name hedit -value "$Env:ProgramFiles/010 Editor/010Editor.exe"
-
-  Set-Alias -name bcom -value "$LOCAL_PROGRAMS/Beyond Compare 4/BCompare.exe"
-
-  Set-Alias -name idaq32 -value "$LOCAL_PROGRAMS/IDA/IDA.Pro.v6.95/idaq.exe"
-  Set-Alias -name idaq64 -value "$LOCAL_PROGRAMS/IDA/IDA.Pro.v6.95/idaq64.exe"
-
-  Set-Alias -name jeb -value "$LOCAL_PROGRAMS/android/jeb-1.5.201508100/jeb_wincon.bat"
-  Set-Alias -name jeb2 -value "$LOCAL_PROGRAMS/android/jeb-2.0.6.201508252211/jeb_wincon.bat"
-  Set-Alias -name ddms -value "$LOCAL_PROGRAMS/android/sdk/tools/monitor.bat"
-
-  Set-Alias -name apktool -value "$LOCAL_PROGRAMS/android/apktool/apktool.bat"
-  Set-Alias -name smali -value "$LOCAL_PROGRAMS/android/apktool/smali.bat"
-  Set-Alias -name baksmali -value "$LOCAL_PROGRAMS/android/apktool/baksmali.bat"
-
-  Set-Alias -name burp -value "$LOCAL_PROGRAMS/burpsuite/burpsuite.bat"
-
-  Set-Alias -name zip -value "$LOCAL_PROGRAMS/zip/zip.exe"
-
-  Set-Alias -Name python3 -Value "$PYTHON36_ROOT/python.exe"
-  Set-Alias -Name pip3 -Value "$PYTHON36_ROOT/Scripts/pip3.exe"
-
-  Set-Alias -Name python2 -Value "$PYTHON27_ROOT/python.exe"
-  Set-Alias -Name pip2 -Value "$PYTHON27_ROOT/Scripts/pip2.exe"
-
-  Set-Alias -Name pypy -Value "$LOCAL_PROGRAMS/Python/pypy/pypy.exe"
-
+  
   if (Test-Path HKCU:"\Software\SweetScape\010 Editor\CLASSES") {
     Remove-Item -Path HKCU:"\Software\SweetScape\010 Editor\CLASSES" -Recurse
   }
@@ -206,3 +198,22 @@ if ($host.Name -eq "ConsoleHost") {
   }
   Start-SshAgent -Quiet
 }
+
+# Initialize aliases
+Set-Alias -name hedit -value "$Env:ProgramFiles/010 Editor/010Editor.exe"
+Set-Alias -name bcom -value "$LOCAL_PROGRAMS/Beyond Compare 4/BCompare.exe"
+Set-Alias -name idaq32 -value "$LOCAL_PROGRAMS/IDA/IDA.Pro.v6.95/idaq.exe"
+Set-Alias -name idaq64 -value "$LOCAL_PROGRAMS/IDA/IDA.Pro.v6.95/idaq64.exe"
+Set-Alias -name jeb -value "$LOCAL_PROGRAMS/android/jeb-1.5.201508100/jeb_wincon.bat"
+Set-Alias -name jeb2 -value "$LOCAL_PROGRAMS/android/jeb-2.0.6.201508252211/jeb_wincon.bat"
+Set-Alias -name ddms -value "$LOCAL_PROGRAMS/android/sdk/tools/monitor.bat"
+Set-Alias -name apktool -value "$LOCAL_PROGRAMS/android/apktool/apktool.bat"
+Set-Alias -name smali -value "$LOCAL_PROGRAMS/android/apktool/smali.bat"
+Set-Alias -name baksmali -value "$LOCAL_PROGRAMS/android/apktool/baksmali.bat"
+Set-Alias -name burp -value "$LOCAL_PROGRAMS/burpsuite/burpsuite.bat"
+Set-Alias -name zip -value "$LOCAL_PROGRAMS/zip/zip.exe"
+Set-Alias -Name python3 -Value "$PYTHON36_ROOT/python.exe"
+Set-Alias -Name pip3 -Value "$PYTHON36_ROOT/Scripts/pip3.exe"
+Set-Alias -Name python2 -Value "$PYTHON27_ROOT/python.exe"
+Set-Alias -Name pip2 -Value "$PYTHON27_ROOT/Scripts/pip2.exe"
+Set-Alias -Name pypy -Value "$LOCAL_PROGRAMS/Python/pypy/pypy.exe"
