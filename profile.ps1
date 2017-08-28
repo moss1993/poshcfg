@@ -25,7 +25,7 @@ function InitializePath {
     # ndk-build
     "$env:ANDROID_NDK_HOME",
     # CMake
-    "$LOCAL_PROGRAMS/cmake/cmake-3.9.0/bin/",
+    "$LOCAL_PROGRAMS/cmake/cmake-3.9.1/bin/",
     # Pandoc
     "$env:LOCALAPPDATA/Pandoc/"
   )
