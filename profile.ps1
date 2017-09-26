@@ -6,7 +6,8 @@ Import-Module PSColors
 
 $LOCAL_PROGRAMS = "$env:LOCALAPPDATA/Programs"
 
-$PYTHON27_ROOT = "$LOCAL_PROGRAMS/Python/Python27"
+# Now both python2 and python3 are 64bit version
+$PYTHON27_ROOT = "$LOCAL_PROGRAMS/IDA/IDA.Pro.v7.0/"
 $PYTHON36_ROOT = "$LOCAL_PROGRAMS/Python/Python36"
 
 $env:ANDROID_SDK_HOME = "$LOCAL_PROGRAMS/android/sdk"
@@ -21,7 +22,7 @@ function InitializePath {
     # adb.exe
     "$env:ANDROID_SDK_HOME/platform-tools/",
     # aapt.exe etc.
-    "$env:ANDROID_SDK_HOME/build-tools/26.0.0/",
+    "$env:ANDROID_SDK_HOME/build-tools/26.0.1/",
     # ndk-build
     "$env:ANDROID_NDK_HOME",
     # CMake
@@ -134,42 +135,11 @@ function clear_python() {
   $Env:Path = $entries -join ";"
 }
 
-function use_py2() {
-  clear_python
-  $paths = @("$PYTHON27_ROOT",
-    "$PYTHON27_ROOT/Scripts")
-
- $entries = $env:Path.Split(";")
- $Env:Path = ($entries += $paths) -join ";"
-}
-
-function use_py3() {
-  clear_python
-  $paths = @("$PYTHON36_ROOT",
-    "$PYTHON36_ROOT/Scripts")
-
- $entries = $env:Path.Split(";")
- $Env:Path = ($entries += $paths) -join ";"
-}
-
 function drozer {
   adb forward tcp:31415 tcp:31415
   $drozerBasePath = "$env:USERPROFILE/Documents/code/python/drozer"
   $env:PYTHONPATH = "$LOCAL_PROGRAMS/Python/Python27/Lib/site-packages;$drozerBasePath/src"
   python2 "$drozerBasePath/bin/drozer" $args
-}
-
-# IDA
-function ida32() {
-  use_py2
-  idaq32 $args
-  use_py3
-}
-
-function ida64() {
-  use_py2
-  idaq64 $args
-  use_py3
 }
 
 # Profile entry.
@@ -202,8 +172,10 @@ if ($host.Name -eq "ConsoleHost") {
 # Initialize aliases
 Set-Alias -name hedit -value "$Env:ProgramFiles/010 Editor/010Editor.exe"
 Set-Alias -name bcom -value "$LOCAL_PROGRAMS/Beyond Compare 4/BCompare.exe"
-Set-Alias -name idaq32 -value "$LOCAL_PROGRAMS/IDA/IDA.Pro.v6.95/idaq.exe"
-Set-Alias -name idaq64 -value "$LOCAL_PROGRAMS/IDA/IDA.Pro.v6.95/idaq64.exe"
+Set-Alias -name ida32 -value "$LOCAL_PROGRAMS/IDA/IDA.Pro.v7.0/ida.exe"
+Set-Alias -name ida64 -value "$LOCAL_PROGRAMS/IDA/IDA.Pro.v7.0/ida64.exe"
+Set-Alias -name ida32x -value "$LOCAL_PROGRAMS/IDA/IDA.Pro.v6.95/idaq.exe"
+Set-Alias -name ida64x -value "$LOCAL_PROGRAMS/IDA/IDA.Pro.v6.95/idaq64.exe"
 Set-Alias -name jeb -value "$LOCAL_PROGRAMS/android/jeb-1.5.201508100/jeb_wincon.bat"
 Set-Alias -name jeb2 -value "$LOCAL_PROGRAMS/android/jeb-2.0.6.201508252211/jeb_wincon.bat"
 Set-Alias -name ddms -value "$LOCAL_PROGRAMS/android/sdk/tools/monitor.bat"
