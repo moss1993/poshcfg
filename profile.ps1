@@ -155,9 +155,6 @@ Write-Host "Current ip:"
 
 InitializePath
 
-# use python3 as default.
-use_py3
-
 if ($host.Name -eq "ConsoleHost") {
   
   if (Test-Path HKCU:"\Software\SweetScape\010 Editor\CLASSES") {
