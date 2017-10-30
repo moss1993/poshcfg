@@ -22,7 +22,7 @@ function InitializePath {
     # adb.exe
     "$env:ANDROID_SDK_HOME/platform-tools/",
     # aapt.exe etc.
-    "$env:ANDROID_SDK_HOME/build-tools/26.0.1/",
+    "$env:ANDROID_SDK_HOME/build-tools/26.0.2/",
     # ndk-build
     "$env:ANDROID_NDK_HOME",
     # CMake
