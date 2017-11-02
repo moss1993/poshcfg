@@ -14,7 +14,7 @@ $env:ANDROID_SDK_HOME = "$LOCAL_PROGRAMS/android/sdk"
 $env:ANDROID_NDK_HOME = "$LOCAL_PROGRAMS/android/ndk"
 
 function InitializePath {
-
+  $tmp = ((Get-ChildItem "$env:ANDROID_SDK_HOME/build-tools/").Name)[-1]
   $newPaths = @(
     # git and msys
     "$LOCAL_PROGRAMS/Git/bin/",
@@ -22,7 +22,7 @@ function InitializePath {
     # adb.exe
     "$env:ANDROID_SDK_HOME/platform-tools/",
     # aapt.exe etc.
-    "$env:ANDROID_SDK_HOME/build-tools/26.0.2/",
+    "$env:ANDROID_SDK_HOME/build-tools/$tmp/",
     # ndk-build
     "$env:ANDROID_NDK_HOME",
     # CMake
